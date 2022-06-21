@@ -6,6 +6,7 @@
   
   vars:
     source_file: /home/bednyakov/ansible/content/html/
+    source_folder: /home/bednyakov/ansible/content/html
     destin_file: /home/vlad/site/gav/
 
   tasks:
@@ -27,7 +28,9 @@
        apt: name=nginx state=latest
 
      - name: Copy files to servers
-       copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+       #copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+       copy: src={{ item }} dest={{ destin_file }} mode=0555
+       with_fileglob: "{{ source_folder }}/*.*"
 
      - name: Start WebServer
        service: name=nginx state=started enabled=yes
