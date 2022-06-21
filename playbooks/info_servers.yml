@@ -1,0 +1,27 @@
+---
+- name: Info-Servers
+  hosts: all
+  become: yes
+
+  vars:
+    message1   : Hello
+
+  tasks:
+  - debug:
+      msg: "Владелец --->{{ ansible_user }}<---"
+
+  - debug:
+      msg: "Установленная OS {{ ansible_os_family }}"
+
+  - debug:
+      var: ansible_distribution
+
+  - set_fact: full_message="{{ message1 }}, {{ ansible_user }}."
+  - debug:
+      var: full_message
+
+
+  - shell: uptime
+    register: results
+  - debug:
+      var: results.stdout

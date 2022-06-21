@@ -1,0 +1,15 @@
+
+---
+
+- name: Loops Playbook
+  hosts: servers
+  become: yes
+
+  tasks:
+  - name: Install many packaged
+    apt: name={{ item }} state=latest
+    with_items:
+            - net-tools
+            - snapd
+            - nginx
+

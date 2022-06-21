@@ -1,0 +1,47 @@
+---
+- name: Install Packages
+  hosts: alt
+  become: yes
+
+  vars:
+    source_file: /home/bednyakov/ansible/content/gav/index.html
+    destin_file: /var/www/html/
+    message1   : Hello
+
+  tasks:
+  - debug: 
+      msg: "Владелец --->{{ ansible_user }}<---"
+
+  - set_fact: full_message="{{ message1 }}, {{ ansible_user}}. Установленная OS {{ ansible_os_family }}"
+  - debug:
+      var: full_message
+
+  - name: Remove net-tools
+    apt_rpm: name=net-tools state=absent
+
+  - name: Remove Nginx
+    apt_rpm: name=nginx state=absent
+
+  - name: Run SSH
+    service: name=sshd state=started enabled=yes
+
+  - name: Remove Snap
+    apt_rpm: name=snapd
+
+  - name: Run Snap
+    service: name=snapd state=started enabled=yes
+
+  - name: Remove ICQ
+    community.general.snap: name=icq-im state=absent
+
+  - name: Remove Telegram
+    community.general.snap: name=telegram-desktop state=absent
+
+  - name: Remove Chrom
+    community.general.snap: name=chromium state=absent
+
+  - name: Remove WhatsUp
+    community.general.snap: name=whatsdesk state=absent
+
+  - name: Remove R7-Office
+    shell: apt-get remove -y r7-office

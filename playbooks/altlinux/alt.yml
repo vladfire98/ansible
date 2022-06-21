@@ -1,0 +1,42 @@
+---
+- name: Install Packages
+  hosts: alt
+  become: yes
+
+  vars:
+    source_file: /home/bednyakov/ansible/content/gav/index.html
+    destin_file: /var/www/html/
+
+  tasks:
+  - name: Install net-tools
+    apt_rpm: name=net-tools state=installed
+
+  - name: Install Nginx
+    apt_rpm: name=nginx state=installed
+
+  - name: Run SSH
+    service: name=sshd state=started enabled=yes
+
+  - name: Install Snap
+    apt_rpm: name=snapd state=installed
+
+  - name: Run Snap
+    service: name=snapd state=started enabled=yes
+
+  - name: Install ICQ
+    community.general.snap: name=icq-im channel=latest
+
+  - name: Install Telegram
+    community.general.snap: name=telegram-desktop channel=latest
+
+  - name: Install Chrom
+    community.general.snap: name=chromium channel=latest
+
+  - name: Install WhatsUp
+    community.general.snap: name=whatsdesk channel=latest
+
+  - name: Download R7
+    get_url: url=https://download.r7-office.ru/altlinux/r7-office.rpm dest=/home
+
+  - name: Install R7-Office
+    shell: apt-get install /home/r7-office.rpm

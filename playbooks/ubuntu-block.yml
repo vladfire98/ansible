@@ -1,0 +1,39 @@
+
+---
+- name: Install Packages
+  hosts: servers
+  become: yes
+  
+  vars:
+    source_file: /home/bednyakov/ansible/content/html/
+    destin_file: /home/vlad/site/gav/
+
+  tasks:
+  - name: Install net-tools
+    apt: name=net-tools state=latest
+    when: ansible_os_family == "Debian"
+
+  - block: #==========INFO-Servers================
+  
+      - name: info_OS
+        debug: var=ansible_os_family
+
+      - name: info_IPv4
+        debug: var=ansible_default_ipv4
+
+
+  - block: #===========Debian=====================
+     - name: Install Nginx for Debian
+       apt: name=nginx state=latest
+
+     - name: Copy files to servers
+       copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+
+     - name: Start WebServer
+       service: name=nginx state=started enabled=yes
+
+    when: ansible_os_family == "Debian"
+
+
+  - name: Start WebServer
+    service: name=nginx state=restarted

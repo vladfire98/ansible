@@ -1,0 +1,12 @@
+[servers]
+ansible-host1		ansible_host=172.16.10.125	
+
+[ubuntugui]
+ubuntu-gui		ansible_host=172.16.10.181	ansible_user=bednyakov
+
+[alt]
+alt-linux		ansible_host=172.16.10.127	ansible_user=vlad		ansible_pass=1234		ansible_python_interpreter=python3
+
+[ubuntu:children]
+servers
+ubuntugui
