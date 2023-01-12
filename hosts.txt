@@ -9,5 +9,4 @@ alt-linux		ansible_host=172.16.10.127	ansible_user=vlad		ansible_pass=1234		ansi
 
 [ubuntu:children]
 servers
-
 ubuntugui
